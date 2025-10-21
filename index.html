@@ -149,11 +149,38 @@
       }
       // 3. A function to move the ball, it bounces when touch the left/top/right wall of canvas - moveBall() { ..... }
       function moveBall() {
-        // ....
+        // These 2 lines of code are how your ball can be moved next
+        // It depends on the value of dx and dy
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // left/right walls
+        if (ball.x + ball.r > canvas.width || ball.x - ball.r < 0) {
+          ball.dx *= -1;
+        }
+
+        // top wall
+        if (ball.y - ball.r < 0) {
+          ball.dy *= -1;
+        }
       }
       // 4. A function to check collision with the paddle or miss - checkCollision() { .... }
       function checkCollision() {
-        // ....
+        const hitsPaddle =
+          ball.y + ball.r >= paddle.y &&
+          ball.x > paddle.x &&
+          ball.x < paddle.x + paddle.w;
+
+        if (hitsPaddle && ball.dy > 0) {
+          ball.dy *= -1;
+          score++;
+          updateUI();
+        }
+
+        // Missed paddle
+        if (...) {
+          running = false;
+        }
       }
       // 5. A function to update the score - updateUI() { ..... }
       function updateUI() {
