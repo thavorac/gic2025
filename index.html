@@ -92,6 +92,15 @@
       // 4. A restart button, so we can apply click on it
       const restartBtn = document.getElementById("restart");
 
+      restartBtn.addEventListener("click", function () {
+        init();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key == "r") {
+          init();
+        }
+      });
+
       // Ensure canvas matches tunables (if you change in HTML, these still enforce)
       canvas.width = CANVAS_W;
       canvas.height = CANVAS_H;
@@ -178,7 +187,8 @@
         }
 
         // Missed paddle
-        if (...) {
+        // When the paddle missed the ball, stop the game
+        if (ball.y - ball.r > canvas.height) {
           running = false;
         }
       }
