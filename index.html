@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bouncing Game</title>
+    <style>
+      body {
+        margin: 0;
+        background: #a5a4a4;
+        color: #eee;
+        font: 16px system-ui;
+        display: grid;
+        place-items: center;
+        height: 100vh;
+      }
+      canvas {
+        background: #8e8585;
+        border: 2px solid #555;
+      }
+      #ui {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+      }
+      button {
+        margin-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ui">
+      Score: <span id="score">0</span> <button id="restart">Restart</button>
+    </div>
+    <canvas id="game" width="480" height="320"></canvas>
+    <script>
+      // ==== Some setting values ====
+      const CANVAS_W = 800;
+      const CANVAS_H = 450;
+      const BALL_SPEED = 2; // try 1.5–2.5
+      const PADDLE_SPEED = 4; // try 3–5
+      const PADDLE_W = 120; // wider paddle helps beginners
+      const PADDLE_H = 12;
+
+      let score = 0;
+      let running = true;
+
+      // Ball & paddle
+      const ball = {
+        x: CANVAS_W / 2,
+        y: CANVAS_H / 2,
+        r: 10,
+        dx: BALL_SPEED,
+        dy: BALL_SPEED,
+      };
+      const paddle = {
+        x: CANVAS_W / 2 - PADDLE_W / 2,
+        y: CANVAS_H - 40,
+        w: PADDLE_W,
+        h: PADDLE_H,
+        speed: PADDLE_SPEED,
+        dx: 0,
+      };
+
+      var arrowLeftPressed = false;
+      var arrowRightPressed = false;
+      // Apply keyboard events to move the paddle
+      document.addEventListener("keydown", function (e) {
+        if (e.key == "ArrowLeft") {
+          arrowLeftPressed = true;
+        } else if (e.key == "ArrowRight") {
+          arrowRightPressed = true;
+        }
+      });
+
+      document.addEventListener("keyup", function (e) {
+        if (e.key == "ArrowLeft") {
+          arrowLeftPressed = false;
+        } else if (e.key == "ArrowRight") {
+          arrowRightPressed = false;
+        }
+      });
+
+      // === We should have Global Variables
+      // === to keep all the reference objects. So what are the referenced objects we should have?
+      // 1. A canvas constant
+      const canvas = document.getElementById("game");
+      // 2. A canvas' 2D context constant
+      const ctx = canvas.getContext("2d");
+      // 3. A score element, so we can update the score
+      const scoreEl = document.getElementById("score");
+      // 4. A restart button, so we can apply click on it
+      const restartBtn = document.getElementById("restart");
+
+      // Ensure canvas matches tunables (if you change in HTML, these still enforce)
+      canvas.width = CANVAS_W;
+      canvas.height = CANVAS_H;
+
+      // === We should define functions as well
+      // 1. A function to draw the ball and the paddle - draw() { .... }
+      function draw() {
+        // Clear screen, to make the canvas blank so we can draw something new on it.
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Paddle
+        ctx.fillStyle = "#4ade80";
+        ctx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h);
+
+        // If you lose the game, so message game over instead.
+        if (!running) {
+          ctx.fillStyle = "#eee";
+          ctx.font = "28px bold system-ui";
+          ctx.fillText("Game Over", CANVAS_W / 2 - 70, CANVAS_H / 2);
+          ctx.font = "16px system-ui";
+          ctx.fillText(
+            "Click Restart to play again",
+            CANVAS_W / 2 - 100,
+            CANVAS_H / 2 + 30
+          );
+        } else {
+          // Ball
+          ctx.beginPath();
+          ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#facc15";
+          ctx.fill();
+        }
+      }
+      // 2. A function to move the paddle left/right - movePaddle() { .... }
+      function movePaddle() {
+        // Make sure paddle stay in the same vertical position
+        paddle.dx = 0;
+
+        // If player press down on arrow left, move the paddle to the left
+        if (arrowLeftPressed) {
+          paddle.dx = -paddle.speed;
+        }
+
+        // If player press down on arrow left, move the paddle to the left
+        if (arrowRightPressed) {
+          paddle.dx = paddle.speed;
+        }
+
+        paddle.x += paddle.dx;
+
+        // clamp, make sure you can't move paddle outside the canvas:
+        if (paddle.x < 0) paddle.x = 0;
+        if (paddle.x + paddle.w > canvas.width)
+          paddle.x = canvas.width - paddle.w;
+      }
+      // 3. A function to move the ball, it bounces when touch the left/top/right wall of canvas - moveBall() { ..... }
+      function moveBall() {
+        // ....
+      }
+      // 4. A function to check collision with the paddle or miss - checkCollision() { .... }
+      function checkCollision() {
+        // ....
+      }
+      // 5. A function to update the score - updateUI() { ..... }
+      function updateUI() {
+        scoreEl.textContent = score;
+      }
+
+      // === And the loop, to keep the game running
+      function init() {
+        score = 0;
+        running = true;
+        ball.x = CANVAS_W / 2;
+        ball.y = CANVAS_H / 2;
+        ball.dx = BALL_SPEED;
+        ball.dy = BALL_SPEED;
+        paddle.x = CANVAS_W / 2 - PADDLE_W / 2;
+        updateUI();
+      }
+
+      // === Loop ===
+      function loop() {
+        if (running) {
+          movePaddle();
+          moveBall();
+          checkCollision();
+        }
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      // So we initialize the value
+      init();
+      // And then, we start the loop so everythign start running
+      loop();
+    </script>
+  </body>
+</html>
