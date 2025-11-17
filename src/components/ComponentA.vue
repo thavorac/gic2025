@@ -16,6 +16,8 @@ export default {
   methods: {
     increase() {
       this.count += 1
+      this.$emit('updated', this.count)
+      // emit value count to the parent, through event 'increased'
     },
   },
 }

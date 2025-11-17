@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <ComponentA />
-    <ComponentB />
+    <ComponentA @updated="countUpdated" />
+    <ComponentB :count="count" />
   </div>
 </template>
 
@@ -13,6 +13,17 @@ export default {
   components: {
     ComponentA,
     ComponentB,
+  },
+  methods: {
+    countUpdated(newCount) {
+      console.log('Count updated to:', newCount)
+      this.count = newCount
+    },
+  },
+  data() {
+    return {
+      count: 0,
+    }
   },
 }
 </script>

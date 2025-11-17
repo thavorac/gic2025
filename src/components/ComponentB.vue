@@ -8,14 +8,15 @@
 <script>
 export default {
   name: 'ComponentB',
-  data() {
-    return {
-      count: 0,
-    }
+  props: {
+    count: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     decrease() {
-      this.count -= 1
+      // this.count -= 1
     },
   },
 }
