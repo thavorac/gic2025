@@ -1,10 +1,26 @@
 <template>
   <div class="container">
     <h2>Component B</h2>
-    <h3>Count:</h3>
-    <button>Decrease</button>
+    <h3>Count: {{ count }}</h3>
+    <button @click="decrease">Decrease</button>
   </div>
 </template>
+<script>
+export default {
+  name: 'ComponentB',
+  data() {
+    return {
+      count: 0,
+    }
+  },
+  methods: {
+    decrease() {
+      this.count -= 1
+    },
+  },
+}
+</script>
+
 <style scoped>
 .container {
   display: flex;

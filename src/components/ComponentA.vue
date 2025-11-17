@@ -1,10 +1,25 @@
 <template>
   <div class="container">
     <h2>Component A</h2>
-    <h3>Count:</h3>
-    <button>Increase</button>
+    <h3>Count: {{ count }}</h3>
+    <button @click="increase">Increase</button>
   </div>
 </template>
+<script>
+export default {
+  name: 'ComponentA',
+  data() {
+    return {
+      count: 0,
+    }
+  },
+  methods: {
+    increase() {
+      this.count += 1
+    },
+  },
+}
+</script>
 <style scoped>
 .container {
   display: flex;
