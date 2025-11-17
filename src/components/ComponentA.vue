@@ -1,23 +1,27 @@
 <template>
   <div class="container">
     <h2>Component A</h2>
-    <h3>Count: {{ count }}</h3>
+    <h3>Count: {{ countStore.count }}</h3>
     <button @click="increase">Increase</button>
   </div>
 </template>
 <script>
+import { useCountStore } from '@/stores/count'
 export default {
   name: 'ComponentA',
-  data() {
-    return {
-      count: 0,
-    }
+  setup() {
+    const countStore = useCountStore()
+    return { countStore }
+  },
+  props: {
+    count: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     increase() {
-      this.count += 1
-      this.$emit('updated', this.count)
-      // emit value count to the parent, through event 'increased'
+      this.countStore.updateCount(this.countStore.count + 1)
     },
   },
 }

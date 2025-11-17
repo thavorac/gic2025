@@ -1,13 +1,18 @@
 <template>
   <div class="container">
     <h2>Component B</h2>
-    <h3>Count: {{ count }}</h3>
+    <h3>Count: {{ countStore.count }}</h3>
     <button @click="decrease">Decrease</button>
   </div>
 </template>
 <script>
+import { useCountStore } from '@/stores/count'
 export default {
   name: 'ComponentB',
+  setup() {
+    const countStore = useCountStore()
+    return { countStore }
+  },
   props: {
     count: {
       type: Number,
@@ -16,7 +21,7 @@ export default {
   },
   methods: {
     decrease() {
-      // this.count -= 1
+      this.countStore.updateCount(this.countStore.count - 1)
     },
   },
 }
