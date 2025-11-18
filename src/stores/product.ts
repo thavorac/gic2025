@@ -12,6 +12,7 @@ export const useProductStore = defineStore('product', {
     async fetchCategories() {
       const response = await axios.get('http://localhost:3000/api/categories').then((res) => {
         this.categories = res.data
+        console.log('Fetched categories:', this.categories)
       })
       return response
     },
