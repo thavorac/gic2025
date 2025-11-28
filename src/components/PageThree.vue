@@ -2,7 +2,7 @@
   <div class="container">
     <div class="link">
       <router-link to="/page_one">Page1</router-link>
-      <router-link to="/page_two">Page2</router-link>
+      <router-link to="/page_two/from_page_3">Page2</router-link>
     </div>
     <h1 style="margin-top: 100px">Page 3</h1>
     <div>
