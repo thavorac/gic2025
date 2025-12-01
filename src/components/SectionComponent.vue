@@ -5,10 +5,10 @@
 <script lang="ts">
 export default {
   name: 'SectionComponent',
-  data() {
-    return {
-      sectionId: this.$route.params.sectionId,
-    }
+  computed: {
+    sectionId() {
+      return this.$route.params.sectionId
+    },
   },
 }
 </script>
