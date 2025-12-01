@@ -13,17 +13,39 @@ const router = createRouter({
     {
       name: 'PageOne',
       path: '/page_one',
-      component: () => import('@/components/PageOne.vue'), // Lazy-loaded
+      component: () => import('@/components/PageOne.vue'),
+      children: [
+        {
+          name: 'PageOne_Section',
+          // path: '/page_one/sections/:sectionId',
+          path: 'sections/:sectionId',
+          component: () => import('@/components/SectionComponent.vue'),
+        },
+      ],
     },
     {
       name: 'PageTwo',
-      path: '/page_two/:message',
+      path: '/page_two',
       component: PageTwo, // Eagerly-loaded
+      children: [
+        {
+          name: 'PageTwo_Section',
+          path: 'sections/:sectionId',
+          component: () => import('@/components/SectionComponent.vue'),
+        },
+      ],
     },
     {
       name: 'PageThree',
       path: '/page_three',
       component: PageThree, // Eagerly-loaded
+      children: [
+        {
+          name: 'PageThree_Section',
+          path: 'sections/:sectionId',
+          component: () => import('@/components/SectionComponent.vue'),
+        },
+      ],
     },
   ],
 })

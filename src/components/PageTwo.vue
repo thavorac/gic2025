@@ -10,6 +10,10 @@
         {{ $route.params.message }}
       </div>
     </h1>
+    <hr style="width: 300px" />
+    <div class="section">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script lang="ts">

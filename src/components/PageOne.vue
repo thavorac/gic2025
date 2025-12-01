@@ -5,6 +5,10 @@
       <router-link to="/page_three">Page3</router-link>
     </div>
     <h1 style="margin-top: 100px">Page 1</h1>
+    <hr style="width: 300px" />
+    <div class="section">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script lang="ts">

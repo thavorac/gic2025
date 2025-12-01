@@ -5,8 +5,9 @@
       <router-link to="/page_two/from_page_3">Page2</router-link>
     </div>
     <h1 style="margin-top: 100px">Page 3</h1>
-    <div>
-      {{ $route.query.message }}
+    <hr style="width: 300px" />
+    <div class="section">
+      <router-view></router-view>
     </div>
   </div>
 </template>
