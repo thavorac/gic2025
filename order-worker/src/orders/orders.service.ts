@@ -13,16 +13,20 @@ export class OrdersService {
   @EventPattern('order_created')
   async handleOrderCreated(@Payload() data: any, @Ctx() context: RmqContext) {
     const correlationId = data?.correlationId;
-    this.logger.log(
-      `Received order_created (correlationId=${correlationId}): ${JSON.stringify(
-        data,
-      )}`,
-    );
-
+    console.log('incmoing message - order_created', correlationId);
     this.processedOrders.push({
       ...data,
       processedAt: new Date().toISOString(),
     });
+
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+    channel.ack(originalMsg);
+  }
+
+  @EventPattern('order_deleted')
+  handleDeleted(@Payload() data: any, @Ctx() context: RmqContext) {
+    console.log('incoming message : order_deleted');
 
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();

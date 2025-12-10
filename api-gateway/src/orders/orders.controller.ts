@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -7,7 +7,13 @@ export class OrdersController {
 
   @Post()
   create(@Body() body: any) {
-    console.log('controller create');
+    console.log('orderController create() is called');
     return this.ordersService.createOrder(body);
+  }
+
+  @Delete()
+  delete() {
+    console.log('Delete order!');
+    return this.ordersService.deleteOrder();
   }
 }
