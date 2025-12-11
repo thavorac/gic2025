@@ -11,6 +11,7 @@ async function bootstrap() {
         urls: ['amqp://admin:admin@rabbitmq:5672'],
         queue: 'orders_queue',
         queueOptions: { durable: false },
+        noAck: true,
       },
     },
   );

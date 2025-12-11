@@ -6,7 +6,7 @@ export class OrdersService {
   constructor(@Inject('ORDERS_SERVICE') private readonly client: ClientProxy) {}
 
   createOrder(orderDto: any) {
-    console.log('emit order_created 11');
+    console.log('emit order_created 22');
     this.client.emit('order_created', '');
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return { status: 'Order accepted', order: orderDto };
