@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
+import { NotificationModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -16,6 +17,11 @@ import { OrdersService } from './orders.service';
         },
       },
     ]),
+    NotificationModule.forFeature({
+      featureName: 'orders',
+      prefix: '[ORDERS]',
+      channels: ['log', 'telegram'], // override global default
+    }),
   ],
   controllers: [OrdersController],
   providers: [OrdersService],

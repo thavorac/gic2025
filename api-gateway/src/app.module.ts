@@ -4,11 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OrdersModule } from './orders/orders.module';
 import { ReceiptsModule } from './receipts/receipts.module';
+import { NotificationModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
     OrdersModule,
     ReceiptsModule,
+    NotificationModule.forRoot({
+      appName: 'API Gateway Lab',
+      defaultChannel: 'log',
+      enable: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'postgres',
