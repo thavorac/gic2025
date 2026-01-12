@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
+import { DobPipe } from 'src/common/pipes/dob.pipe';
 
 @Controller('orders')
 export class OrdersController {
@@ -15,5 +16,11 @@ export class OrdersController {
   delete() {
     console.log('Delete order!');
     return this.ordersService.deleteOrder();
+  }
+
+  @Post('test-dob')
+  testDob(@Body('dob', new DobPipe()) dob: string) {
+    console.log('Testing DOB:', dob);
+    return { message: `Received DOB: ${dob}` };
   }
 }
