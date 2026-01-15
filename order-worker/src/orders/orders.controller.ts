@@ -1,18 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Body, Controller } from '@nestjs/common';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { EventPattern } from '@nestjs/microservices';
+import { DobPipe } from 'src/common/pipes/dob.pipe';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @EventPattern('order_created')
-  handleOrderCreated() {
-    console.log('incmoing message - order_created - controller');
+  @Post()
+  create(@Body() body: any) {
+    console.log('orderController create() is called');
+    return this.ordersService.createOrder(body);
+  }
 
-    // const channel = context.getChannelRef();
-    // const originalMsg = context.getMessage();
-    // channel.ack(originalMsg);
+  @Delete()
+  delete() {
+    console.log('Delete order!');
+    return this.ordersService.deleteOrder();
+  }
+
+  @Post('test-dob')
+  testDob(@Body('dob', new DobPipe()) dob: string) {
+    console.log('Testing DOB:', dob);
+    return { message: `Received DOB: ${dob}` };
   }
 }

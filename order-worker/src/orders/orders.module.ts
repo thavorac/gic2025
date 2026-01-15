@@ -1,9 +1,29 @@
 import { Module } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { OrdersController } from './orders.controller';
+import { OrdersService } from './orders.service';
+import { NotificationModule } from 'src/notifications/notifications.module';
 
 @Module({
-  providers: [OrdersService],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'ORDERS_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL || 'amqp://rabbitmq:5672'],
+          queue: 'orders_queue',
+          queueOptions: { durable: false },
+        },
+      },
+    ]),
+    NotificationModule.forFeature({
+      featureName: 'orders',
+      prefix: '[ORDERS]',
+      channels: ['log', 'telegram'], // override global default
+    }),
+  ],
   controllers: [OrdersController],
+  providers: [OrdersService],
 })
 export class OrdersModule {}
