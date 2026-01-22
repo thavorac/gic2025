@@ -13,12 +13,11 @@ services:
 
   api-gateway:
     build: ./api-gateway
+    env_file: ./api-gateway/.env
     container_name: api-gateway
     command: npm run start:dev
     ports:
       - "3000:3000"
-    environment:
-      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
     volumes:
       - ./api-gateway:/app
       - /app/node_modules
@@ -27,12 +26,11 @@ services:
 
   auth-service:
     build: ./auth-service
+    env_file: ./auth-service/.env
     container_name: auth-service
     command: npm run start:dev
     ports:
       - "3001:3000"
-    environment:
-      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
     volumes:
       - ./auth-service:/app
       - /app/node_modules
@@ -41,10 +39,9 @@ services:
 
   order-worker:
     build: ./order-worker
+    env_file: ./order-worker/.env
     container_name: order-worker
     command: npm run start:dev
-    environment:
-      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
     ports:
       - "3002:3000"
     volumes:
